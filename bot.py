@@ -1,22 +1,17 @@
 import datetime
 import os
-
-
 from langchain_groq import ChatGroq
 from langchain.prompts.chat import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from langchain.output_parsers import StructuredOutputParser
-from dotenv import load_dotenv
+import streamlit as st
 
-
-load_dotenv()
-os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
-
+# Get API key from Streamlit secrets
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 llm = ChatGroq(
-        groq_api_key=os.getenv("GROQ_API_KEY"),
-        model_name="meta-llama/llama-4-scout-17b-16e-instruct"
-    )
-
+    groq_api_key=GROQ_API_KEY,
+    model_name="meta-llama/llama-4-scout-17b-16e-instruct"
+)
 
 
 def answer_question(question, data):
@@ -26,7 +21,7 @@ def answer_question(question, data):
         If something is not mentioned in the data, say you don't know and that you will find out and get back to them. 
         Always answer in the same language as the question. Type like a human. Be casual and friendly. Dont write huge paragraphs. 
         Keep the answer short and concise. mostly around 40 words max.
-        dont forget about mutual funds (no need to mention always, just reminding you)
+        
         """
     )
 
@@ -44,12 +39,7 @@ def answer_question(question, data):
     return response.content
 
 
-with open('clean.txt', 'r', encoding='utf-8') as file:
-    data = file.read()
-
-
-qn = input("Enter your question: ")
-print(answer_question(qn, data))
+# Remove the direct file reading from here since we'll handle it in app.py
 
 
 
