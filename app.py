@@ -16,7 +16,7 @@ if "messages" not in st.session_state:
 # Load data
 @st.cache_data
 def load_data():
-    with open(os.path.join(os.path.dirname(__file__), 'clean.txt'), 'r', encoding='utf-8') as file:
+    with open(os.path.join(os.path.dirname(__file__), 'gem_text.txt'), 'r', encoding='utf-8') as file:
         return file.read()
 
 data = load_data()
